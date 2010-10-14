@@ -1,0 +1,78 @@
+<html>
+	<body>
+		
+		<div id="main">
+			<form id="new_customer">
+				<label for="customer_name">Customer</label><br />
+				<input type="text" name="customer" id="customer">
+				<br />
+				<input type="submit" value="Add Customer" />
+			</form>
+			
+			<div id="customers"></div>
+		</div>
+		
+	
+	<script type="text/javascript"
+ src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+	
+	<script type="text/javascript">
+		( function() {
+// private variables *******
+			
+// private functions *******
+				
+			// respond when a customer is added
+			function bind_customer_added() {
+				$( '#main' ).bind(
+					'customer_added',
+					function( event, event_object ){
+						$( '#customers' ).html( 'Customer ' + event_object.customer_name + ' with an ID of ' + event_object.customer_id + ' was added to the system.' );
+						$( '#main' ).attr( 'id', 'vermon' );
+					}
+				);
+			
+			}; // end bind_customer_added
+						
+// DOM handlers
+			// trap the form submission and process it
+			function handle_new_customer() {
+				$( '#new_customer' ).submit( function() {
+					console.log( 'form submitted' ); // just testing
+					$.post( 
+						'Customer.cfc',
+						{
+							method				: 'create',
+							customer_name : $( '#customer' ).val()
+						},
+						function( response ){
+							if ( response.success ){
+								$( '#main' ).trigger( 
+									'customer_added',
+									response
+								);
+							};
+						},
+						'json'
+					);
+					
+					return false; // prevent the form from submitting normally
+				});
+			}; // end handle_new_customer
+			
+						
+// initialization
+			( function() {
+				bind_customer_added();
+				handle_new_customer();
+				}
+			)();
+
+// public API
+			return {
+			
+			}
+		})();
+	</script>
+	</body>
+</html>
