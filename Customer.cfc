@@ -7,9 +7,9 @@
 		returnformat="json"  
 		hint="I manage the creation of a customer. For this example, I'm just simulating it.">
 		
-		<cfargument name="customer">
+		<cfargument name="customer_name">
 		
-		<cfreturn { 'success' : true, 'customer_id' : '1007', 'customer_name' : arguments.customer }>
+		<cfreturn { 'success' : true, 'customer_id' : '1007', 'customer_name' : arguments.customer_name }>
 	</cffunction>
 
 </cfcomponent>
